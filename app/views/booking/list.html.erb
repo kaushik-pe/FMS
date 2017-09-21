@@ -56,9 +56,13 @@ function sort(value){
                 <div class="col-sm-3">
                   <i class="fa fa-plane" aria-hidden="true"></i> <%= flight.source%> ---> <%= flight.destination%>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                   <i class="fa fa-clock-o" aria-hidden="true"></i>
                    <%= flight.departure_time.strftime("%I:%M%p")%> ---> <%= flight.arrival_time.strftime("%I:%M%p")%>
+                </div>
+                <div class="col-sm-3">
+                  <i class="fa fa-usd" aria-hidden="true"></i>
+                   <%= flight.minPrice%> ---> <%= flight.maxPrice%>
                 </div>
               </div>
           </div>

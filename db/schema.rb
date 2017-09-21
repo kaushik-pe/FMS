@@ -10,17 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170911110247) do
+ActiveRecord::Schema.define(version: 20170921065029) do
 
   create_table "flights", force: :cascade do |t|
     t.time "arrival_time"
     t.time "departure_time"
     t.string "source"
     t.string "destination"
-    t.string "airline"
+    t.string "airlines"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "price"
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.boolean "monday"
+    t.boolean "tuesday"
+    t.boolean "wednesday"
+    t.boolean "thursday"
+    t.boolean "friday"
+    t.boolean "saturday"
+    t.boolean "sunday"
+    t.integer "flight_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flight_id"], name: "index_schedules_on_flight_id"
   end
 
 end

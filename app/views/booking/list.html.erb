@@ -1,0 +1,74 @@
+<script>
+ function  test(value){
+   window.location.href = window.location.search+"&sortby="+value
+}
+function sort(value){
+   window.location.href = window.location.search+"&sortby="+value
+}
+
+</script>
+
+<div id="resultsDivision">
+  <div class=row>
+    <div class="col-sm-3">
+      <div class="card" style="width: 15rem;margin-bottom:40px;margin-left:5px">
+          <div class="card-body">
+              <h4 class="card-title">Sort By</h4>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" onclick="sort('price')">Price</li>
+            <li class="list-group-item" onclick="sort('departure_time')">Departure Time</li>
+            <li class="list-group-item" onclick="sort('arrival_time')">Arrival Time</li>
+          </ul>
+      </div>
+      <div class="card" style="width: 15rem;margin-top:20px;margin-left:5px">
+        <form action='/list' method="get">
+          <div class="card-body">
+              <h4 class="card-title">Filter</h4>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Price </br>
+              <input type="range" width="10px" class="form-control">
+            </li>
+            <li class="list-group-item">
+              Airline name</br>
+              <input type=text class= "form-control" id="airlines" name="airlines" width="10px">
+            </li>
+            <li class="list-group-item">Arrival Time </br>
+                <input type="range" width="10px" class="form-control">
+            </li>
+            <button type="button" onclick="test()" style="margin-left:5px" class="btn btn-primary"> Filter </button>
+          </ul>
+
+        </form>
+
+      </div>
+    </div>
+    <div class="col-sm-7">
+      <%@flights.each do|flight| %>
+      <div class="card" style="width: 50rem;margin-bottom:40px">
+          <div class="card-body">
+              <h4 class="card-title"><%= flight.airlines%></h4>
+          </div>
+          <div class="card-text" style="padding:20px">
+              <div class=row style="margin-left:10px">
+                <div class="col-sm-3">
+                  <i class="fa fa-plane" aria-hidden="true"></i> <%= flight.source%> ---> <%= flight.destination%>
+                </div>
+                <div class="col-sm-6">
+                  <i class="fa fa-clock-o" aria-hidden="true"></i>
+                   <%= flight.departure_time.strftime("%I:%M%p")%> ---> <%= flight.arrival_time.strftime("%I:%M%p")%>
+                </div>
+              </div>
+          </div>
+        <div class="card-body">
+          <a href="#" class="card-link">View Seats</a>
+        </div>
+      </div>
+     <%end%>
+   </div>
+   <div class="col-sm-2">
+   </div>
+  </div>
+</div>

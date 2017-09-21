@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  get 'flights/new'
+  get 'booking/homepage'
 
-  get 'welcome/homepage'
-  root 'welcome#homepage'
-  resources :flights
+  get 'list' => "booking#list"
+  root 'booking#homepage'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

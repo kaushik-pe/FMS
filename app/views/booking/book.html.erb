@@ -1,0 +1,42 @@
+<script>
+  function addPassengerFields(){
+    $("#passengerInfo").empty();
+    count = document.getElementById("noPassengers").value;
+    fields = ["name","aadharNo","age"]
+    for(i=0;i<count;i++){
+      for(j=0;j<fields.length;j++){
+        console.log(count);
+        var element = document.createElement("input")
+        element.setAttribute('type', 'text');
+        element.setAttribute('name',"passenger["+i+"]"+"[:"+fields[j]+"]");
+        element.setAttribute('placeholder',"Passenger "+(i+1)+" "+fields[j]);
+        $("#passengerInfo").append(element);
+        $("#passengerInfo").append("</br>");
+        $("#passengerInfo").append("</br>");
+      }
+    }
+    var element = document.createElement("input")
+    element.setAttribute('type', 'submit');
+    element.setAttribute('class', 'btn btn-primary');
+    $("#passengerInfo").append(element);
+
+  }
+
+</script>
+
+<div id="mainBody" style="padding:50px">
+  <div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+      <input type="text" id="noPassengers" class="form-control" placeholder="Number of Passengers"></br>
+      <button type="button" class="btn btn-primary" onclick="addPassengerFields()"> Confirm</button>
+      <form method="post" action="/confirm" id="passengerInfo" style="margin-top:50px">
+        <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+
+      </form>
+    </div>
+    <div class="col-sm-2">
+    </div>
+  </div>
+</div>

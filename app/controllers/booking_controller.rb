@@ -36,6 +36,12 @@ class BookingController < ApplicationController
         end
      end
   end
+  def book
+    puts params[:flight_id]
+  end
+  def confirm
+    puts params
+  end
 
   private
   def findPriceClass(flights)

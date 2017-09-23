@@ -15,6 +15,8 @@
         element.setAttribute('type', 'text');
         element.setAttribute('name',"passenger["+i+"]"+"["+fields[j]+"]");
         element.setAttribute('placeholder',"Passenger "+(i+1)+" "+fields[j]);
+        element.setAttribute('class',"form-control");
+        element.setAttribute('width',7);
         $("#passengerInfo").append(element);
         $("#passengerInfo").append("</br>");
         $("#passengerInfo").append("</br>");

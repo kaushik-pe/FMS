@@ -1,3 +1,4 @@
+require "open-uri"
 class BookingController < ApplicationController
   skip_before_action :verify_authenticity_token
   def homepage
@@ -61,8 +62,9 @@ class BookingController < ApplicationController
        available = total-booked
        seatno = available.first
        bookdate = Time.now.strftime("%d/%m/%Y")
-      addBooking(user.id,bookingno,flight_id,passenger.id,seatno,bookdate,"Booked",doj,params["passenger"][outkey]["class"])
+       addBooking(user.id,bookingno,flight_id,passenger.id,seatno,bookdate,"Booked",doj,params["passenger"][outkey]["class"])
     end
+    @flightInfo = Flight.joins(:booking).where("bookings.bookingno"=>bookingno)
     redirect_to "/showTicket?bookingID="+bookingno
   end
   def showTicket
@@ -71,8 +73,32 @@ class BookingController < ApplicationController
      @noSeats = Booking.where(:bookingno=>@bookingID).length
      @passengerDet =  Booking.joins(:passenger).where(:bookingno=>@bookingID).select("bookings.*","passengers.*")
   end
-
+  def downloadTicket
+    @bookingID = params[:bookingID]
+    @flightInfo = Flight.joins(:booking).where("bookings.bookingno"=>@bookingID)
+    @noSeats = Booking.where(:bookingno=>@bookingID).length
+    @passengerDet =  Booking.joins(:passenger).where(:bookingno=>@bookingID).select("bookings.*","passengers.*")
+    kit = PDFKit.new(as_html(@bookingID,@flightInfo,@noSeats,@passengerDet), page_size: 'legal')
+    fileTicket = kit.to_file("#{Rails.root}/public/ticket"+@bookingID+".pdf")
+    send_file fileTicket
+  end
+  def generateBrochure
+    id = params[:bookingID]
+    destination = Flight.joins(:booking).where("bookings.bookingno"=>id)
+    destination = destination[0].destination
+    response = open('https://maps.googleapis.com/maps/api/place/textsearch/json?query=Tourist+spots+in+'+destination+'&key=AIzaSyCQxwpFj_2pTM3i3Ljejzf9KMg8AfwrNTw').read
+    response = JSON.parse(response)
+    kit = PDFKit.new(as_brochure(response["results"]),page_size:'legal')
+    fileBrochure = kit.to_file("#{Rails.root}/public/brochure"+id+".pdf")
+  end
   private
+  def as_brochure(results)
+      render template: "booking/generateBrochure", layout:"application" ,locals: { results: results}
+  end
+
+  def as_html(bookingID,flightInfo,noSeats,passengerDet)
+    render template: "booking/generateTicket", layout:"application" ,locals: { bookingID: bookingID,flightInfo: flightInfo,noSeats: noSeats,passengerDet: passengerDet}
+  end
   def addBooking(userid,bookingno,flight_id,passengerid,seatno,bookdate,status,doj,classname)
     temp = Booking.create(:user_id=>userid,:bookingno=>bookingno,:flight_id=>flight_id,:passenger_id=>passengerid,:seatno=>seatno,:bookingdate=>bookdate,:status=>status,:doj=>doj,:classname=>classname)
   end

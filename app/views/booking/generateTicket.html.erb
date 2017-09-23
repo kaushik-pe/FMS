@@ -1,0 +1,64 @@
+<style>
+  table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+  }
+  th, td {
+      padding: 15px;
+  }
+  #PassengerDetails{
+      margin-top: 60px;
+  }
+  table#t01 tr:nth-child(even) {
+      background-color: #eee;
+  }
+  table#t01 tr:nth-child(odd) {
+     background-color:#fff;
+  }
+  table#t01 th {
+      background-color: black;
+      color: white;
+  }
+</style>
+<h4>Ticket Confirmed </br>
+</br>
+<%=flightInfo[0].airlines%>
+</h4>
+<table border="1">
+  <tr>
+    <th>Source</th>
+    <th>Destination</th>
+    <th>Booking ID</th>
+    <th>No of Passengers</th>
+  </tr>
+  <tr>
+      <td><%=flightInfo[0].source%></td>
+      <td><%=flightInfo[0].destination%></td>
+      <td><%=bookingID%></td>
+      <td><%=noSeats%></td>
+  </tr>
+</table>
+<div id="PassengerDetails">
+    <h5>Passenger Details</hr>
+    </br>
+    </br>
+    </br>
+    <table id="t01">
+      <tr>
+          <th>Seat No</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Class</th>
+          <th>Date of Journey</th>
+      </tr>
+      <%passengerDet.each do|passenger|%>
+        <tr>
+          <td><%=passenger.seatno%></td>
+          <td><%=passenger.name%></td>
+          <td><%=passenger.age%></td>
+          <td><%=passenger.classname%></td>
+          <td><%=passenger.doj%></td>
+        </tr>
+      <%end%>
+    </table>
+</div>

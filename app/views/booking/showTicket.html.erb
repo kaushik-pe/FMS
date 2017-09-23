@@ -1,0 +1,99 @@
+
+<div class="row">
+  <div class="col-sm-2">
+  </div>
+  <div class="col-sm-8">
+      <div class="card" style="width: 50rem;margin-bottom:40px">
+          <div class="card-body">
+              <h4 class="card-title">
+                Ticket Confirmed </br>
+                </br>
+                <%=@flightInfo[0].airlines%>
+               </h4>
+          </div>
+          <div class="card-text" style="padding:20px">
+              <div class=row style="margin-left:10px" >
+                <div class="col-sm-2">
+                  <h5>Source</h5>
+                </div>
+                <div class="col-sm-3">
+                  <h5>Destination</h5>
+                </div>
+                <div class="col-sm-3">
+                  <h5>Booking ID</h5>
+                </div>
+                <div class="col-sm-4">
+                  <h5>No of Passengers</h5>
+                </div>
+              </div>
+              <div class=row style="margin-left:10px" >
+                <div class="col-sm-2">
+                  <%=@flightInfo[0].source%>
+                </div>
+                <div class="col-sm-3">
+                  <%=@flightInfo[0].destination%>
+                </div>
+                <div class="col-sm-3">
+                  <%=@bookingID%>
+                </div>
+                <div class="col-sm-4">
+                  <%=@noSeats%>
+                </div>
+              </div>
+              <h4 style="margin-top:40px">Passenger Details </h4>
+              <div id=passengerdet style="font-weight:12px">
+                <ul class="list-group list-group-flush">
+                   <li class="list-group-item">
+                     <div class="row">
+                       <div class="col-sm-2">
+                           Seat No
+                       </div>
+                       <div class="col-sm-2">
+                           Name
+                       </div>
+                       <div class="col-sm-2">
+                           Age
+                       </div>
+                       <div class="col-sm-2">
+                           Class
+                       </div>
+                       <div class="col-sm-3">
+                           Date of Journey
+                       </div>
+                     </div>
+                   </li>
+                </ul>
+                <%@passengerDet.each do|passenger|%>
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                        <div class="row">
+                          <div class="col-sm-2">
+                            <%=passenger.seatno%>
+                          </div>
+                          <div class="col-sm-2">
+                            <%=passenger.name%>
+                          </div>
+                          <div class="col-sm-2">
+                            <%=passenger.age%>
+                          </div>
+                          <div class="col-sm-2">
+                            <%=passenger.classname%>
+                          </div>
+                          <div class="col-sm-2">
+                            <%=passenger.doj%>
+                          </div>
+                        </div>
+                      </li>
+                   </ul>
+                <%end%>
+              </div>
+          </div>
+        <div class="card-body">
+          <a href="#" class="card-link">Save as PDF</a>
+        </div>
+      </div>
+
+  </div>
+  <div class="col-sm-2">
+  </div>
+</div>

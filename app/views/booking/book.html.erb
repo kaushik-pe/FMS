@@ -1,8 +1,13 @@
 <script>
+  classes = "<%=@flightJavaStr%>";
+  classes = classes.split(",")
+  classes.pop()
+  console.log(classes)
   function addPassengerFields(){
     $("#passengerInfo").empty();
     count = document.getElementById("noPassengers").value;
-    fields = ["name","aadharno","age","class"]
+    fields = ["name","aadharno","age"]
+    /*Adding Passenger fields dynamically*/
     for(i=0;i<count;i++){
       for(j=0;j<fields.length;j++){
         console.log(count);
@@ -14,10 +19,24 @@
         $("#passengerInfo").append("</br>");
         $("#passengerInfo").append("</br>");
       }
+        /*Adding select field dynamically*/
+        selectList = document.createElement("select");
+        selectList.setAttribute('name',"passenger["+i+"]"+"[class]");
+        $("#passengerInfo").append(selectList);
+        for (var k = 0; k < classes.length; k++) {
+          var option = document.createElement("option");
+          option.value = classes[k];
+          option.text = classes[k];
+          selectList.appendChild(option);
+       }
+       /*Adding submit button dynamically*/
+      $("#passengerInfo").append("</br>");
+      $("#passengerInfo").append("</br>");
     }
     var element = document.createElement("input")
     element.setAttribute('type', 'submit');
     element.setAttribute('class', 'btn btn-primary');
+    element.setAttribute('onclick','submitForm()');
     $("#passengerInfo").append(element);
   }
   function getParameterByName(name, url) {
@@ -29,12 +48,11 @@
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
-  window.onload = function(){
+  function submitForm(){
       ids = ["flight_id","jrnydate"]
       for(i=0;i<ids.length;i++){
           var temp = getParameterByName(ids[i])
           document.getElementById(ids[i]).value = temp
-          alert(document.getElementById(ids[i]).value);
       }
   }
 

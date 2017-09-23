@@ -35,7 +35,11 @@ class BookingController < ApplicationController
   end
 
   def book
-    puts params[:flight_id]
+    @flightClasses = Flighttype.joins(:flight).where(:flight_id=>params[:flight_id]).pluck(:classname)
+    @flightJavaStr = ""
+    @flightClasses.each do|flightClass|
+      @flightJavaStr +=flightClass.to_s+","
+    end
   end
 
   def confirm
@@ -50,16 +54,24 @@ class BookingController < ApplicationController
         temp[key] = value
       end
        passenger = Passenger.create(temp)
+       puts passenger
        booked = findBookedSeats(flight_id,doj,params["passenger"][outkey]["class"])
        totalno = findTotalSeats(flight_id,params["passenger"][outkey]["class"])
        total = generateTotalSeats(totalno)
        available = total-booked
        seatno = available.first
        bookdate = Time.now.strftime("%d/%m/%Y")
-       addBooking(user.id,bookingno,flight_id,passenger.id,seatno,bookdate,"Booked",doj,params["passenger"][outkey]["class"])
+      addBooking(user.id,bookingno,flight_id,passenger.id,seatno,bookdate,"Booked",doj,params["passenger"][outkey]["class"])
     end
-
+    redirect_to "/showTicket?bookingID="+bookingno
   end
+  def showTicket
+     @bookingID = params[:bookingID]
+     @flightInfo = Flight.joins(:booking).where("bookings.bookingno"=>@bookingID)
+     @noSeats = Booking.where(:bookingno=>@bookingID).length
+     @passengerDet =  Booking.joins(:passenger).where(:bookingno=>@bookingID).select("bookings.*","passengers.*")
+  end
+
   private
   def addBooking(userid,bookingno,flight_id,passengerid,seatno,bookdate,status,doj,classname)
     temp = Booking.create(:user_id=>userid,:bookingno=>bookingno,:flight_id=>flight_id,:passenger_id=>passengerid,:seatno=>seatno,:bookingdate=>bookdate,:status=>status,:doj=>doj,:classname=>classname)
@@ -84,6 +96,10 @@ class BookingController < ApplicationController
   end
 
   def findTotalSeats(flight_id,classname)
+    puts "FLIGHT ID"
+    puts flight_id
+    puts "CLASS NAME"
+    puts classname
     temp = Flight.joins(:flighttype).select("flighttypes.noofseats").where(:id=>flight_id,"flighttypes.classname"=>classname)
     return temp[0].noofseats
   end

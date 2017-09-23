@@ -2,13 +2,13 @@
   function addPassengerFields(){
     $("#passengerInfo").empty();
     count = document.getElementById("noPassengers").value;
-    fields = ["name","aadharNo","age"]
+    fields = ["name","aadharno","age","class"]
     for(i=0;i<count;i++){
       for(j=0;j<fields.length;j++){
         console.log(count);
         var element = document.createElement("input")
         element.setAttribute('type', 'text');
-        element.setAttribute('name',"passenger["+i+"]"+"[:"+fields[j]+"]");
+        element.setAttribute('name',"passenger["+i+"]"+"["+fields[j]+"]");
         element.setAttribute('placeholder',"Passenger "+(i+1)+" "+fields[j]);
         $("#passengerInfo").append(element);
         $("#passengerInfo").append("</br>");
@@ -19,7 +19,23 @@
     element.setAttribute('type', 'submit');
     element.setAttribute('class', 'btn btn-primary');
     $("#passengerInfo").append(element);
-
+  }
+  function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+  window.onload = function(){
+      ids = ["flight_id","jrnydate"]
+      for(i=0;i<ids.length;i++){
+          var temp = getParameterByName(ids[i])
+          document.getElementById(ids[i]).value = temp
+          alert(document.getElementById(ids[i]).value);
+      }
   }
 
 </script>
@@ -31,9 +47,12 @@
     <div class="col-sm-8">
       <input type="text" id="noPassengers" class="form-control" placeholder="Number of Passengers"></br>
       <button type="button" class="btn btn-primary" onclick="addPassengerFields()"> Confirm</button>
-      <form method="post" action="/confirm" id="passengerInfo" style="margin-top:50px">
+      <form method="post" action="/confirm" style="margin-top:50px" >
         <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
-
+        <input name="flight_id" id="flight_id" type="hidden">
+        <input name="jrnydate" id="jrnydate" type="hidden">
+        <div id="passengerInfo">
+        </div>
       </form>
     </div>
     <div class="col-sm-2">

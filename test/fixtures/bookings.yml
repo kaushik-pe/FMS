@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  seatno: MyString
+  bookingdate: 2017-09-22
+  status: MyString
+  doj: 2017-09-22
+  user: one
+  passenger: one
+  flight: one
+
+two:
+  seatno: MyString
+  bookingdate: 2017-09-22
+  status: MyString
+  doj: 2017-09-22
+  user: two
+  passenger: two
+  flight: two

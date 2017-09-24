@@ -1,9 +1,12 @@
 require "open-uri"
+require 'resolv-replace'
 class BookingController < ApplicationController
   skip_before_action :verify_authenticity_token
   def homepage
+    @pageTitle = "homepage"
   end
   def list
+    @pageTitle = "results page"
      dateQuery = "schedules."+Date.parse(params[:jrnydate]).strftime("%A").downcase
      unless params[:sortby]
        @flights = Flight.joins(:schedule).where(params.permit(:source,:destination,:airlines)).where(dateQuery=>"t")
@@ -67,12 +70,15 @@ class BookingController < ApplicationController
     @flightInfo = Flight.joins(:booking).where("bookings.bookingno"=>bookingno)
     redirect_to "/showTicket?bookingID="+bookingno
   end
+
   def showTicket
      @bookingID = params[:bookingID]
      @flightInfo = Flight.joins(:booking).where("bookings.bookingno"=>@bookingID)
      @noSeats = Booking.where(:bookingno=>@bookingID).length
      @passengerDet =  Booking.joins(:passenger).where(:bookingno=>@bookingID).select("bookings.*","passengers.*")
   end
+
+
   def downloadTicket
     @bookingID = params[:bookingID]
     @flightInfo = Flight.joins(:booking).where("bookings.bookingno"=>@bookingID)
@@ -81,7 +87,11 @@ class BookingController < ApplicationController
     kit = PDFKit.new(as_html(@bookingID,@flightInfo,@noSeats,@passengerDet), page_size: 'legal')
     fileTicket = kit.to_file("#{Rails.root}/public/ticket"+@bookingID+".pdf")
     send_file fileTicket
+    if(params[:email])
+        UsermailerMailer.ticket(User.first,"#{Rails.root}/public/ticket"+@bookingID+".pdf","ticket"+@bookingID+".pdf").deliver
+    end
   end
+
   def generateBrochure
     id = params[:bookingID]
     destination = Flight.joins(:booking).where("bookings.bookingno"=>id)
@@ -90,7 +100,13 @@ class BookingController < ApplicationController
     response = JSON.parse(response)
     kit = PDFKit.new(as_brochure(response["results"]),page_size:'legal')
     fileBrochure = kit.to_file("#{Rails.root}/public/brochure"+id+".pdf")
+    if(params[:email])
+        UsermailerMailer.ticket(User.first,"#{Rails.root}/public/brochure"+id+".pdf","Brochure"+id+".pdf").deliver
+    end
+    send_file fileBrochure
   end
+
+
   private
   def as_brochure(results)
       render template: "booking/generateBrochure", layout:"application" ,locals: { results: results}

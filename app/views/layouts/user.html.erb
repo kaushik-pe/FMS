@@ -1,3 +1,16 @@
+<script>
+function highlightOption(value){
+  document.getElementById(value).style.backgroundColor = "#e6ffff";
+  document.getElementById(value).style.cursor = "cell";
+}
+function unhighlightOption(value){
+  document.getElementById(value).style.backgroundColor = "#ffffff"
+}
+function moveTo(url){
+  url='/profile/'+url;
+  window.location.href = url;
+}
+</script>
 <!DOCTYPE html>
 <html>
   <head>
@@ -25,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div id="loginNavbar" style="margin-bottom:25px">
+    <div id="loginNavbar">
         <div class="row">
             <div class="col-sm-10">
             </div>
@@ -91,6 +104,25 @@
           </div>
         </div>
     </div>
-    <%= yield %>
-  </body>
+<div class="row">
+  <div class="col-sm-3" id="linksProfile">
+    <div class="card" style="width: 15rem;margin-bottom:40px;margin-left:5px">
+        <div class="card-body">
+            <h6 class="card-title">Hello <%=@user.name%> :-)</h6>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" id="profileLink" onclick="moveTo('')" onmouseover="highlightOption('profileLink')" onmouseout="unhighlightOption('profileLink')" >Profile</li>
+          <li class="list-group-item" id="profileBookings" onclick="moveTo('bookings')" onmouseover="highlightOption('profileBookings')" onmouseout="unhighlightOption('profileBookings')">Bookings</li>
+          <li class="list-group-item" id="editProfile" onclick="moveTo('edit')" onmouseover="highlightOption('editProfile')" onmouseout="unhighlightOption('editProfile')">Edit Profile</li>
+        </ul>
+    </div>
+  </div>
+  <div class="col-sm-7">
+    <%=yield%>
+  </div>
+  <div class="col-sm-2">
+
+  </div>
+</div>
+</body>
 </html>

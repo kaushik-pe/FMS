@@ -1,0 +1,25 @@
+<h5>Bookings made by <%=@user.name%></h5>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Journey Date</th>
+      <th>Airlines</th>
+      <th>Source</th>
+      <th>Destination</th>
+      <th>Status</th>
+      <th>More info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%@bookings.each do |booking|%>
+      <tr>
+        <td><%= booking.doj%></td>
+        <td><%= booking.airlines%></td>
+        <td><%= booking.source%></td>
+        <td><%= booking.destination%></td>
+        <td><%= booking.status%></td>
+        <td><a href="/profile/booking/viewPassengerInfo?bookingno=<%=booking.bookingno%>">View Booking</a></td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>

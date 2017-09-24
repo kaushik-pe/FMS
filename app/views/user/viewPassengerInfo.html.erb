@@ -1,0 +1,30 @@
+<script>
+  function cancelBooking(no){
+    window.location.href = '/profile/cancelBooking?bookingno='+no
+  }
+</script>
+
+<h5>Passenger Details</h5>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Seat no</th>
+      <th>Class Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%@passengerDetails.each do |passenger|%>
+      <tr>
+        <td><%= passenger.name%></td>
+        <td><%= passenger.age%></td>
+        <td><%= passenger.seatno%></td>
+        <td><%= passenger.classname%></td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>
+<%if @status!="Cancelled"%>
+  <button type="button" class="btn btn-primary" onclick="cancelBooking('<%=@bookingno%>')">Cancel Booking</button>
+<%end%>

@@ -17,4 +17,24 @@ class UserController < ApplicationController
     session[:emailid] = nil
     redirect_to '/'
   end
+  def profile
+  end
+  def showBookings
+    puts @user.id
+    @bookings = Booking.joins(:flight).where(:user_id=>@user.id).group(:bookingno).select("bookings.*","flights.*")
+  end
+  def viewPassengerInfo
+    @bookingno = params[:bookingno]
+    @status = Booking.where(:bookingno=>@bookingno).group(:bookingno)[0].status
+    @passengerDetails = Booking.joins(:passenger).where(:bookingno=>@bookingno).select("bookings.*","passengers.*")
+  end
+  def cancelBooking
+    Booking.where(:bookingno=>params[:bookingno]).update(:status=>"Cancelled")
+    redirect_to "/profile/bookings"
+  end
+  def updateProfile
+     session[:emailid] = params[:emailid]
+     User.where(:id=>@user.id).update(:name=>params[:name],:emailid=>params[:emailid],:contactno=>params[:contactno]);
+     redirect_to "/profile"
+  end
 end

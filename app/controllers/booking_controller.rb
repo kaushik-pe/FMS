@@ -1,7 +1,6 @@
 require "open-uri"
 require 'resolv-replace'
 class BookingController < ApplicationController
-  before_action :is_authenticated
   def homepage
   end
   def list
@@ -38,7 +37,7 @@ class BookingController < ApplicationController
 
   def book
     if !@user
-      redirect_to "/"
+      redirect_to '/'
     end
     @flightClasses = Flighttype.joins(:flight).where(:flight_id=>params[:flight_id]).pluck(:classname)
     @flightJavaStr = ""
@@ -152,11 +151,5 @@ class BookingController < ApplicationController
         total<<i
       end
     return total
-  end
-  def is_authenticated
-    if !!session[:emailid]
-      temp = User.where(:emailid=>session[:emailid])
-      @user = temp[0]
-    end
   end
 end

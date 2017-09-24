@@ -30,6 +30,7 @@
             <div class="col-sm-10">
             </div>
             <div class="col-sm-2">
+
               <%if !!@user%>
                 <%=@user.name%>
                 <form method="get" action="/logout">
@@ -38,7 +39,7 @@
                 <%else%>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                   Login/Signup
-                </button>                
+                </button>
               <%end%>
 
             </div>

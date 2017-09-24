@@ -37,6 +37,9 @@ class BookingController < ApplicationController
   end
 
   def book
+    if !@user
+      redirect_to "/"
+    end
     @flightClasses = Flighttype.joins(:flight).where(:flight_id=>params[:flight_id]).pluck(:classname)
     @flightJavaStr = ""
     @flightClasses.each do|flightClass|
@@ -45,7 +48,10 @@ class BookingController < ApplicationController
   end
 
   def confirm
-    user = User.first
+    unless !!@user
+      redirect_to '/'
+    end
+    user = @user
     bookingno = user.name+rand(10 ** 10).to_s
     flight_id = params["flight_id"]
     doj = params["jrnydate"]
@@ -86,7 +92,7 @@ class BookingController < ApplicationController
     fileTicket = kit.to_file("#{Rails.root}/public/ticket"+@bookingID+".pdf")
     send_file fileTicket
     if(params[:email])
-        UsermailerMailer.ticket(User.first,"#{Rails.root}/public/ticket"+@bookingID+".pdf","ticket"+@bookingID+".pdf").deliver
+        UsermailerMailer.ticket(@user,"#{Rails.root}/public/ticket"+@bookingID+".pdf","ticket"+@bookingID+".pdf").deliver
     end
   end
 
@@ -99,7 +105,7 @@ class BookingController < ApplicationController
     kit = PDFKit.new(as_brochure(response["results"]),page_size:'legal')
     fileBrochure = kit.to_file("#{Rails.root}/public/brochure"+id+".pdf")
     if(params[:email])
-        UsermailerMailer.ticket(User.first,"#{Rails.root}/public/brochure"+id+".pdf","Brochure"+id+".pdf").deliver
+        UsermailerMailer.ticket(@user,"#{Rails.root}/public/brochure"+id+".pdf","Brochure"+id+".pdf").deliver
     end
     send_file fileBrochure
   end
@@ -107,11 +113,11 @@ class BookingController < ApplicationController
 
   private
   def as_brochure(results)
-      render template: "booking/generateBrochure", layout:"application" ,locals: { results: results}
+      render template: "booking/generateBrochure", layout:"application" ,locals: { results: results,pdf: 1}
   end
 
   def as_html(bookingID,flightInfo,noSeats,passengerDet)
-    render template: "booking/generateTicket", layout:"application" ,locals: { bookingID: bookingID,flightInfo: flightInfo,noSeats: noSeats,passengerDet: passengerDet}
+    render template: "booking/generateTicket", layout:"application" ,locals: { bookingID: bookingID,flightInfo: flightInfo,noSeats: noSeats,passengerDet: passengerDet,pdf: 1}
   end
   def addBooking(userid,bookingno,flight_id,passengerid,seatno,bookdate,status,doj,classname)
     temp = Booking.create(:user_id=>userid,:bookingno=>bookingno,:flight_id=>flight_id,:passenger_id=>passengerid,:seatno=>seatno,:bookingdate=>bookdate,:status=>status,:doj=>doj,:classname=>classname)

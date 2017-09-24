@@ -30,9 +30,17 @@
             <div class="col-sm-10">
             </div>
             <div class="col-sm-2">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Login/Signup
-              </button>
+              <%if !!@user%>
+                <%=@user.name%>
+                <form method="get" action="/logout">
+                  <button type="submit" class="btn btn-primary" > Log out </button>
+                </form>
+                <%else%>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  Login/Signup
+                </button>                
+              <%end%>
+
             </div>
         </div>
         <!-- Modal -->
@@ -50,8 +58,9 @@
                     <div class="col-sm-6" style="border-right-style: inset">
                         <h6>Login</h6>
                          <form method="post" action="/login">
-                            <input type="text" class="form-control" id="username" placeholder="E Mail"> </br>
-                            <input type="password" class="form-control" id="password" placeholder="Password"></br>
+                            <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="E Mail"> </br>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password"></br>
                             <button type="submit" class="btn btn-primary">
                                 Login
                             </button>
@@ -60,10 +69,11 @@
                     <div class="col-sm-6">
                         <h6>Sign up</h6>
                         <form method="post" action="/signup">
-                          <input type="text" class="form-control" id="name" placeholder="Name"></br>
-                          <input type="text" class="form-control" id="username" placeholder="E Mail"> </br>
-                          <input type="password" class="form-control" id="password" placeholder="Password"></br>
-                          <input type="text" class="form-control" id="contactno" placeholder="Contact No"></br>
+                          <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                          <input type="text" class="form-control" name="name" placeholder="Name"></br>
+                          <input type="text" class="form-control" name="username" placeholder="E Mail"> </br>
+                          <input type="password" class="form-control" name="password" placeholder="Password"></br>
+                          <input type="text" class="form-control" name="contactno" placeholder="Contact No"></br>
                           <button type="submit" class="btn btn-primary">
                               Sign Up
                           </button>

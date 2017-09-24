@@ -1,12 +1,10 @@
 require "open-uri"
 require 'resolv-replace'
 class BookingController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  before_action :is_authenticated
   def homepage
-    @pageTitle = "homepage"
   end
   def list
-    @pageTitle = "results page"
      dateQuery = "schedules."+Date.parse(params[:jrnydate]).strftime("%A").downcase
      unless params[:sortby]
        @flights = Flight.joins(:schedule).where(params.permit(:source,:destination,:airlines)).where(dateQuery=>"t")
@@ -138,10 +136,6 @@ class BookingController < ApplicationController
   end
 
   def findTotalSeats(flight_id,classname)
-    puts "FLIGHT ID"
-    puts flight_id
-    puts "CLASS NAME"
-    puts classname
     temp = Flight.joins(:flighttype).select("flighttypes.noofseats").where(:id=>flight_id,"flighttypes.classname"=>classname)
     return temp[0].noofseats
   end
@@ -152,5 +146,11 @@ class BookingController < ApplicationController
         total<<i
       end
     return total
+  end
+  def is_authenticated
+    if !!session[:emailid]
+      temp = User.where(:emailid=>session[:emailid])
+      @user = temp[0]
+    end
   end
 end

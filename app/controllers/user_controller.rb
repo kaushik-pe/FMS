@@ -18,6 +18,9 @@ class UserController < ApplicationController
     redirect_to '/'
   end
   def profile
+    if(@user.isadmin)
+      redirect_to '/profile/admin'
+    end
   end
   def showBookings
     puts @user.id

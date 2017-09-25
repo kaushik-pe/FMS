@@ -1,0 +1,42 @@
+<form method="post" action="/profile/admin/createFlight">
+  <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4" class="col-form-label">Source</label>
+      <input type="text" class="form-control" name="source" placeholder="Source">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4" class="col-form-label">Destination</label>
+      <input type="text" class="form-control" name="destination" placeholder="Destination">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4" class="col-form-label">Departure Time</label>
+      <input type="text" class="form-control" name="departure_time" placeholder="Departure Time">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4" class="col-form-label">Arrival Time</label>
+      <input type="text" class="form-control" name="arrival_time" placeholder="Arrival Time">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress" class="col-form-label">Airlines Name</label>
+    <input type="text" class="form-control" name="airlines" placeholder="Airlines Name">
+  </div>
+  Repeats Every
+  <div class="form-group">
+    <div class="form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" name="monday"type="checkbox"> Monday</br>
+        <input class="form-check-input" name="tuesday"type="checkbox"> Tuesday</br>
+        <input class="form-check-input" name="wednesday"type="checkbox"> Wednesday</br>
+        <input class="form-check-input" name="thursday"type="checkbox"> Thursday</br>
+        <input class="form-check-input" name="friday"type="checkbox"> Friday</br>
+        <input class="form-check-input" name="saturday"type="checkbox"> Saturday</br>
+        <input class="form-check-input" name="sunday"type="checkbox"> Sunday</br>
+      </label>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

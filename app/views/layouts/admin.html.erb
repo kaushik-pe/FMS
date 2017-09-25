@@ -1,0 +1,129 @@
+<script>
+function highlightOption(value){
+  document.getElementById(value).style.backgroundColor = "#e6ffff";
+  document.getElementById(value).style.cursor = "cell";
+}
+function unhighlightOption(value){
+  document.getElementById(value).style.backgroundColor = "#ffffff"
+}
+function moveTo(url){
+
+  url='/profile'+url;
+  window.location.href = url;
+}
+</script>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FMS</title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/3d3874ad20.js"></script>
+
+  </head>
+
+  <body>
+    <div id="header">
+      <div class="row">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-8">
+          <h1 style="text-align:center"> FMS </h1>
+        </div>
+        <div class="col-sm-2">
+        </div>
+      </div>
+    </div>
+    <div id="loginNavbar">
+        <div class="row">
+            <div class="col-sm-10">
+            </div>
+            <div class="col-sm-2">
+
+              <%if !!@user%>
+                <%=@user.name%>
+                <form method="get" action="/logout">
+                  <button type="submit" class="btn btn-primary" > Log out </button>
+                </form>
+                  <a href='/profile'>Profile</a>
+                <%else%>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  Login/Signup
+                </button>
+              <%end%>
+
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6" style="border-right-style: inset">
+                        <h6>Login</h6>
+                         <form method="post" action="/login">
+                            <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                            <input type="text" class="form-control" id="username" name="username" placeholder="E Mail"> </br>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password"></br>
+                            <button type="submit" class="btn btn-primary">
+                                Login
+                            </button>
+                         </form>
+                    </div>
+                    <div class="col-sm-6">
+                        <h6>Sign up</h6>
+                        <form method="post" action="/signup">
+                          <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+                          <input type="text" class="form-control" name="name" placeholder="Name"></br>
+                          <input type="text" class="form-control" name="username" placeholder="E Mail"> </br>
+                        <input type="password" class="form-control" name="password" placeholder="Password"></br>
+                          <input type="text" class="form-control" name="contactno" placeholder="Contact No"></br>
+                          <button type="submit" class="btn btn-primary">
+                              Sign Up
+                          </button>
+                          <%=@verification_message%>
+                       </form>
+                    </div>
+                </div>
+              </div>
+              <!--  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+    </div>
+<div class="row">
+  <div class="col-sm-3" id="linksProfile">
+    <div class="card" style="width: 15rem;margin-bottom:40px;margin-left:5px">
+        <div class="card-body">
+            <h6 class="card-title">Hello <%=@user.name%> :-)</h6>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" id="profileLink" onclick="moveTo('/admin')" onmouseover="highlightOption('profileLink')" onmouseout="unhighlightOption('profileLink')" >Profile</li>
+          <li class="list-group-item" id="profileBookings" onclick="moveTo('/admin/addFlights')" onmouseover="highlightOption('profileBookings')" onmouseout="unhighlightOption('profileBookings')">Add Flight</li>
+          <li class="list-group-item" id="editProfile" onclick="moveTo('/admin/viewUsers')" onmouseover="highlightOption('editProfile')" onmouseout="unhighlightOption('editProfile')">View Users</li>
+        </ul>
+    </div>
+  </div>
+  <div class="col-sm-7">
+    <%=yield%>
+  </div>
+  <div class="col-sm-2">
+
+  </div>
+</div>
+</body>
+</html>

@@ -1,4 +1,5 @@
 class UserController < ApplicationController
+  before_action :isLoggedIN,except:[:signup,:login,:logout]
   def signup
     @user = User.create(:name=>params[:name],:emailid=>params[:username],:password=>params[:password],:contactno=>params[:contactno],:verified=>true,:isadmin=>false,:credate=>Time.now().to_s)
     session[:emailid] = @user.emailid
@@ -39,5 +40,11 @@ class UserController < ApplicationController
      session[:emailid] = params[:emailid]
      User.where(:id=>@user.id).update(:name=>params[:name],:emailid=>params[:emailid],:contactno=>params[:contactno]);
      redirect_to "/profile"
+  end
+  private
+  def isLoggedIN
+    if(!@user)
+      redirect_to '/'
+    end
   end
 end

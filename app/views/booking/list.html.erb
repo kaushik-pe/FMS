@@ -135,9 +135,9 @@ function UpdateQueryString(key, value, url) {
           <div class="card-body">
               <h4 class="card-title"><%= flight.airlines%></h4>
           </div>
-          <div class="card-text" style="padding:20px">
+          <div class="card-text" style="padding-left:20px">
               <div class=row style="margin-left:10px" >
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                   <i class="fa fa-plane" aria-hidden="true"></i><%= flight.source%> ---> <%= flight.destination%>
                 </div>
                 <div class="col-sm-4">
@@ -151,7 +151,7 @@ function UpdateQueryString(key, value, url) {
               </div>
           </div>
         <div class="card-body">
-          <a href="/book?flight_id=<%=flight.id%>&jrnydate=<%=params[:jrnydate]%>&destination=<%=params[:destination]%>" class="card-link">View Seats</a>
+          <a href="/book?flight_id=<%=flight.id%>&jrnydate=<%=params[:jrnydate]%>&destination=<%=params[:destination]%>" class="card-link">Book Flight</a>
         </div>
       </div>
      <%end%>

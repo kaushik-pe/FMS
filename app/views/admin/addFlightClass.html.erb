@@ -9,19 +9,19 @@
         console.log(count);
           var element = document.createElement("input")
           element.setAttribute('type', 'text');
+          element.setAttribute('style','width=50px');
           element.setAttribute('name',"flighttype["+i+"]"+"["+fields[j]+"]");
-          element.setAttribute('placeholder',"Flight Type "+(i+1)+" "+fields[j]);
-          element.setAttribute('class',"form-control");
-          element.setAttribute('width',7);
+          element.setAttribute('placeholder',fields[j]+" "+(i+1));
+          //element.setAttribute('class',"form-control");
           $("#flightTypeInfo").append(element);
-          $("#flightTypeInfo").append("</br>");
-          $("#flightTypeInfo").append("</br>");
+          $("#flightTypeInfo").append("   ");
+          $("#flightTypeInfo").append("   ");
         }
        /*Adding submit button dynamically*/
       $("#flightTypeInfo").append("</br>");
       $("#flightTypeInfo").append("</br>");
     }
-    var element = document.createElement("input")
+    var element = document.createElement("input");
     element.setAttribute('type', 'submit');
     element.setAttribute('class', 'btn btn-primary');
     element.setAttribute('onclick','submitForm()');
@@ -48,9 +48,7 @@
 
 <div id="mainBody" style="padding:50px">
   <div class="row">
-    <div class="col-sm-2">
-    </div>
-    <div class="col-sm-8">
+    <div class="col-sm-12">
       <input type="text" id="noClasses" class="form-control" placeholder="Number of classes"></br>
       <button type="button" class="btn btn-primary" onclick="addFlightClassFields()"> Confirm</button>
       <form method="post" action="/profile/admin/createFlightClass" style="margin-top:50px" >
@@ -59,8 +57,6 @@
         <div id="flightTypeInfo">
         </div>
       </form>
-    </div>
-    <div class="col-sm-2">
     </div>
   </div>
 </div>

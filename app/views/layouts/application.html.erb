@@ -12,85 +12,11 @@
     <script src="https://use.fontawesome.com/3d3874ad20.js"></script>
 
   </head>
+<body style="background:url('/assets/flight.jpg');background-size:cover; background-repeat: no-repeat;">
 
-  <body>
-    <div id="header">
-      <div class="row">
-        <div class="col-sm-2">
-        </div>
-        <div class="col-sm-8">
-          <h1 style="text-align:center"> FMS </h1>
-        </div>
-        <div class="col-sm-2">
-        </div>
-      </div>
-    </div>
-    <div id="loginNavbar" style="margin-bottom:25px">
-        <div class="row">
-            <div class="col-sm-10">
-            </div>
-            <div class="col-sm-2">
-
-              <%if !!@user%>
-                <%=@user.name%>
-                <form method="get" action="/logout">
-                  <button type="submit" class="btn btn-primary" > Log out </button>
-                </form>
-                  <a href='/profile'>Profile</a>
-                <%else%>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                  Login/Signup
-                </button>
-              <%end%>
-
-            </div>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-6" style="border-right-style: inset">
-                        <h6>Login</h6>
-                         <form method="post" action="/login">
-                            <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
-                            <input type="text" class="form-control" id="username" name="username" placeholder="E Mail"> </br>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password"></br>
-                            <button type="submit" class="btn btn-primary">
-                                Login
-                            </button>
-                         </form>
-                    </div>
-                    <div class="col-sm-6">
-                        <h6>Sign up</h6>
-                        <form method="post" action="/signup">
-                          <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
-                          <input type="text" class="form-control" name="name" placeholder="Name"></br>
-                          <input type="text" class="form-control" name="username" placeholder="E Mail"> </br>
-                          <input type="password" class="form-control" name="password" placeholder="Password"></br>
-                          <input type="text" class="form-control" name="contactno" placeholder="Contact No"></br>
-                          <button type="submit" class="btn btn-primary">
-                              Sign Up
-                          </button>
-                          <%=@verification_message%>
-                       </form>
-                    </div>
-                </div>
-              </div>
               <!--  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Save changes</button>
               </div> -->
-            </div>
-          </div>
-        </div>
-    </div>
-    <%= yield %>
-  </body>
+  <%= yield %>
+</body>
 </html>

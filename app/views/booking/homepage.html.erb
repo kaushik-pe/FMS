@@ -1,10 +1,36 @@
+<script>
+  String.prototype.replaceAt=function(index, replacement) {
+    return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+  }
+  function validateSearchQuery(){
+    source = document.getElementById("source").value
+    destination = document.getElementById("destination").value
+    jrnydate = document.getElementById("jrnydate").value
+    source = source.replaceAt(0,source.charAt(0).toUpperCase());
+    destination = destination.replaceAt(0,destination.charAt(0).toUpperCase());
+    document.getElementById("source").value = source
+    document.getElementById("destination").value = destination
+    jrnydate = new Date(jrnydate);
+    currDate = new Date;
+    if(source==destination){
+      count+=1;
+      alert("Source and Destination cannot be same");
+      return false;
+    }
+    if(jrnydate<currDate){
+      count+=1;
+      alert("We are still working on a Time machine\n Until then please use our system for future bookings only!")
+      return false;
+    }
+ }
+</script>
 
 <div id="mainBody" style="padding:50px">
   <div class="row">
     <div class="col-sm-2">
     </div>
     <div class="col-sm-8">
-      <form action="/list" method="get">
+      <form action="/list" method="get" onsubmit="return validateSearchQuery()">
         <div class="row">
           <div class="col-sm-3">
            <input type="text" name="source" id="source" value="" class="form-control" placeholder="Source" required="required"/>

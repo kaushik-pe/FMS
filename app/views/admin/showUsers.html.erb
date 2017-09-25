@@ -1,23 +1,30 @@
+<style>
+#userTable{
+  background-color: rgba(0,0,0,0) !important;
+}
+</style>
 <h5>Users</h5>
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Contact No</th>
-      <th>Joining Date</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%@allUsers.each do |person|%>
+<div id="userTable">
+  <table class="table table-hover">
+    <thead>
       <tr>
-        <td><%= person.name%></td>
-        <td><%= person.emailid%></td>
-        <td><%= person.contactno%></td>
-        <td><%= person.credate.to_time.strftime('%d-%m-%Y')%></td>
-        <td><a href="/profile/admin/userDelete?userid=<%=person.id%>">Delete</a></td>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Contact No</th>
+        <th>Joining Date</th>
+        <th>Action</th>
       </tr>
-    <%end%>
-  </tbody>
+    </thead>
+    <tbody>
+      <%@allUsers.each do |person|%>
+        <tr>
+          <td><%= person.name%></td>
+          <td><%= person.emailid%></td>
+          <td><%= person.contactno%></td>
+          <td><%= person.credate.to_time.strftime('%d-%m-%Y')%></td>
+          <td><a href="/profile/admin/userDelete?userid=<%=person.id%>">Delete</a></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </div>
 </table>

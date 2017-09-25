@@ -1,4 +1,5 @@
 class AdminController < ApplicationController
+  before_action :checkAdmin
   def profile
 
   end
@@ -37,5 +38,14 @@ class AdminController < ApplicationController
        Flighttype.create(temp)
     end
     redirect_to '/'
+  end
+  private
+  def checkAdmin
+    if(!@user)
+      redirect_to '/'
+    end
+    if(!@user.isadmin)
+      redirect_to '/profile'
+    end
   end
 end

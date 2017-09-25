@@ -13,13 +13,15 @@
         console.log(count);
         var element = document.createElement("input")
         element.setAttribute('type', 'text');
+        element.setAttribute('style','width=200px');
         element.setAttribute('name',"passenger["+i+"]"+"["+fields[j]+"]");
         element.setAttribute('placeholder',"Passenger "+(i+1)+" "+fields[j]);
-        element.setAttribute('class',"form-control");
+        element.setAttribute('required',"required");
+        //element.setAttribute('class',"form-control");
         element.setAttribute('width',7);
         $("#passengerInfo").append(element);
-        $("#passengerInfo").append("</br>");
-        $("#passengerInfo").append("</br>");
+        $("#passengerInfo").append("  ");
+        $("#passengerInfo").append("  ");
       }
         /*Adding select field dynamically*/
         selectList = document.createElement("select");

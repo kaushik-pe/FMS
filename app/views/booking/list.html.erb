@@ -130,6 +130,13 @@ function UpdateQueryString(key, value, url) {
       </div>
     </div>
     <div class="col-sm-7">
+      <%if @flights.length==0%>
+      <div class="card" style="width: 50rem;margin-bottom:40px">
+          <div class="card-body">
+              <h4>No flights available for the requested route</h4>
+           </div>
+      </div>
+      <%end%>
       <%@flights.each do|flight| %>
       <div class="card" style="width: 50rem;margin-bottom:40px">
           <div class="card-body">

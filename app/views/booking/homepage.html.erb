@@ -13,13 +13,11 @@
     jrnydate = new Date(jrnydate);
     currDate = new Date;
     if(source==destination){
-      count+=1;
       alert("Source and Destination cannot be same");
       return false;
     }
     if(jrnydate<currDate){
-      count+=1;
-      alert("We are still working on a Time machine\n Until then please use our system for future bookings only!")
+      alert("We are still working on a Time machine\n Until then please use our system for future bookings only!");
       return false;
     }
  }

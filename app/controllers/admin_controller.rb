@@ -43,8 +43,7 @@ class AdminController < ApplicationController
   def checkAdmin
     if(!@user)
       redirect_to '/'
-    end
-    if(!@user.isadmin)
+    elsif(!@user.isadmin)
       redirect_to '/profile'
     end
   end

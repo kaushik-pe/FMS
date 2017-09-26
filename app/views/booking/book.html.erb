@@ -1,11 +1,29 @@
 <script>
   classes = "<%=@flightJavaStr%>";
+  availableSeats = "<%=@availbleJavastr%>";
   classes = classes.split(",")
-  classes.pop()
-  console.log(classes)
+  availableSeats = availableSeats.split(",");
+  classes.pop();
+  availableSeats.pop();
+  availableSeatMap = [];
+  /*function creating availableSeatMap for all classes*/
+  totalAvailableSeats = 0;
+  count = 0;
+  for(i=0;i<availableSeats.length;i++){
+    temp = {}
+    temp.classname = classes[i];
+    temp.available = parseInt(availableSeats[i]);
+    totalAvailableSeats+=temp.available;
+    availableSeatMap.push(temp);
+  }
+  console.log(availableSeatMap);
   function addPassengerFields(){
     $("#passengerInfo").empty();
     count = document.getElementById("noPassengers").value;
+    if(count>totalAvailableSeats){
+      alert("Sorry:-(..Total no of seats available is : "+totalAvailableSeats);
+      return;
+    }
     fields = ["name","aadharno","age"]
     /*Adding Passenger fields dynamically*/
     for(i=0;i<count;i++){
@@ -15,6 +33,7 @@
         element.setAttribute('type', 'text');
         element.setAttribute('style','width=200px');
         element.setAttribute('name',"passenger["+i+"]"+"["+fields[j]+"]");
+        element.setAttribute('id',"passenger["+i+"]"+"["+fields[j]+"]");
         element.setAttribute('placeholder',"Passenger "+(i+1)+" "+fields[j]);
         element.setAttribute('required',"required");
         //element.setAttribute('class',"form-control");
@@ -26,6 +45,7 @@
         /*Adding select field dynamically*/
         selectList = document.createElement("select");
         selectList.setAttribute('name',"passenger["+i+"]"+"[class]");
+        selectList.setAttribute('id',"passenger["+i+"]"+"[class]");
         $("#passengerInfo").append(selectList);
         for (var k = 0; k < classes.length; k++) {
           var option = document.createElement("option");
@@ -40,7 +60,6 @@
     var element = document.createElement("input")
     element.setAttribute('type', 'submit');
     element.setAttribute('class', 'btn btn-primary');
-    element.setAttribute('onclick','submitForm()');
     $("#passengerInfo").append(element);
   }
   function getParameterByName(name, url) {
@@ -53,13 +72,28 @@
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
   function submitForm(){
-      ids = ["flight_id","jrnydate"]
+      ids = ["flight_id","jrnydate"];
+      booked = {};
+      /*Check the no of seats available for booking*/
+      for(j=0;j<count;j++){
+        temp = document.getElementById("passenger["+j+"][class]").value;
+        if(!booked[temp])
+          booked[temp] = 0
+        booked[temp]++;
+      }
+      /*Check the no of seats available*/
+      for(k=0;k<availableSeatMap.length;k++){
+          value = availableSeatMap[k]["classname"]
+          if(booked[value]>availableSeatMap[k]["available"]){
+            alert("Sorry "+value+" has only "+availableSeatMap[k]["available"]+" seats left");
+            return false;
+          }
+      }
       for(i=0;i<ids.length;i++){
           var temp = getParameterByName(ids[i])
           document.getElementById(ids[i]).value = temp
-      }
+     }
   }
-
 </script>
 
 <div id="mainBody" style="padding:50px">
@@ -69,7 +103,7 @@
     <div class="col-sm-8">
       <input type="text" id="noPassengers" class="form-control" placeholder="Number of Passengers"></br>
       <button type="button" class="btn btn-primary" onclick="addPassengerFields()"> Confirm</button>
-      <form method="post" action="/confirm" style="margin-top:50px" >
+      <form method="post" action="/confirm" style="margin-top:50px" onsubmit="return submitForm()" >
         <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
         <input name="flight_id" id="flight_id" type="hidden">
         <input name="jrnydate" id="jrnydate" type="hidden">
